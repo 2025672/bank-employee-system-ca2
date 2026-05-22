@@ -1,9 +1,6 @@
 package CA_2;
 
-/**
- * Parent class for all employee types in the bank organisation.
- * Subtypes (e.g. FullTime, PartTime, Contract) added in a later commit for extra marks.
- */
+/** Parent class for bank employees. */
 public abstract class Employee {
 
     protected String name;
@@ -11,7 +8,6 @@ public abstract class Employee {
     protected String departmentName;
 
     public Employee() {
-        // Fields and constructors expanded when data model is implemented.
     }
 
     public String getName() {

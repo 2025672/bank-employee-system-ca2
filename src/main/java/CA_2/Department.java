@@ -1,14 +1,11 @@
 package CA_2;
 
-/**
- * Parent class for bank departments (HR, Finance, Customer Service, etc.).
- */
+/** Parent class for bank departments. */
 public abstract class Department {
 
     protected String departmentName;
 
     public Department() {
-        // Subtypes added in a later commit.
     }
 
     public String getDepartmentName() {

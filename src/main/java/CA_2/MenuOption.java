@@ -1,8 +1,7 @@
 package CA_2;
 
 /**
- * Menu options for the bank employee system.
- * Uses an Enum as required by the assignment (structured, easy to extend).
+ * Console menu options (Enum).
  */
 public enum MenuOption {
 
@@ -30,9 +29,6 @@ public enum MenuOption {
         return label;
     }
 
-    /**
-     * Prints every menu option by iterating through the enum values.
-     */
     public static void printAllOptions() {
         System.out.println("Please select an option:");
         for (MenuOption option : MenuOption.values()) {
@@ -40,12 +36,6 @@ public enum MenuOption {
         }
     }
 
-    /**
-     * Finds a menu option matching the user's numeric choice.
-     *
-     * @param choice number entered by the user
-     * @return matching MenuOption, or null if invalid
-     */
     public static MenuOption fromCode(int choice) {
         for (MenuOption option : MenuOption.values()) {
             if (option.code == choice) {

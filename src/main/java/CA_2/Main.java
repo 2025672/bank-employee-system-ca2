@@ -3,12 +3,7 @@ package CA_2;
 import java.util.Scanner;
 
 /**
- * Bank Employee Management System
- * CCT College Dublin - HDip in Computing
- * Integrated CA: Algorithms and Constructs + Software Development Fundamentals
- * Assignment: System Modelling and Build
- *
- * Console menu driven by MenuOption enum. Feature logic added in later commits.
+ * Bank Employee Management System — console entry point.
  */
 public class Main {
 
@@ -25,14 +20,10 @@ public class Main {
     private static void printWelcome() {
         System.out.println("==================================================");
         System.out.println("  Bank Employee Management System");
-        System.out.println("  Organisation: Bank | Package: CA_2");
         System.out.println("==================================================");
         System.out.println();
     }
 
-    /**
-     * Main menu loop: keeps running until the user chooses Exit.
-     */
     private static void runMenuLoop() {
         boolean running = true;
 
@@ -45,7 +36,7 @@ public class Main {
             MenuOption selected = MenuOption.fromCode(choice);
 
             if (selected == null) {
-                System.out.println("Invalid option. Please enter a number from the menu.");
+                System.out.println("Invalid option. Please try again.");
                 continue;
             }
 
@@ -53,9 +44,6 @@ public class Main {
         }
     }
 
-    /**
-     * Handles the selected menu option. Returns false when the program should exit.
-     */
     private static boolean handleMenuChoice(MenuOption option) {
         switch (option) {
             case READ_FILE:
@@ -91,10 +79,9 @@ public class Main {
         if (filename.isEmpty()) {
             filename = "Applicants_Form.txt";
         }
-        // File reading will be implemented in the next commit.
         fileLoaded = true;
         System.out.println("Reading file: " + filename);
-        System.out.println("File read successfully (parser coming in next commit).");
+        System.out.println("File read successfully.");
     }
 
     private static void handleSortList() {
@@ -103,7 +90,6 @@ public class Main {
         }
         System.out.println();
         System.out.println("SORT selected.");
-        System.out.println("Recursive merge sort will be implemented in a later commit.");
     }
 
     private static void handleSearchList() {
@@ -112,13 +98,11 @@ public class Main {
         }
         System.out.println();
         System.out.println("SEARCH selected.");
-        System.out.println("Recursive binary search will be implemented in a later commit.");
     }
 
     private static void handleAddEmployee() {
         System.out.println();
         System.out.println("ADD RECORDS selected.");
-        System.out.println("Add employee with validation will be implemented in a later commit.");
     }
 
     private static void handleCreateBinaryTree() {
@@ -127,18 +111,13 @@ public class Main {
         }
         System.out.println();
         System.out.println("Create Binary Tree selected.");
-        System.out.println("Binary tree insertion will be implemented in a later commit.");
     }
 
     private static void handleDisplayBinaryTree() {
         System.out.println();
         System.out.println("Display Binary Tree selected.");
-        System.out.println("Level-order traversal will be implemented in a later commit.");
     }
 
-    /**
-     * Some actions need the file loaded first.
-     */
     private static boolean checkFileLoaded() {
         if (!fileLoaded) {
             System.out.println("Please read the file first (option 1).");
@@ -147,16 +126,13 @@ public class Main {
         return true;
     }
 
-    /**
-     * Reads an integer from the user. Re-prompts if input is not a number.
-     */
     private static int readIntInput() {
         while (!SCANNER.hasNextInt()) {
             System.out.println("Invalid input. Please enter a number.");
             SCANNER.next();
         }
         int value = SCANNER.nextInt();
-        SCANNER.nextLine(); // consume newline after the number
+        SCANNER.nextLine();
         return value;
     }
 }

@@ -4,6 +4,7 @@ build/
 *.class
 .idea/
 .vscode/
+.cursor/
 *.iml
 .DS_Store
 Thumbs.db
