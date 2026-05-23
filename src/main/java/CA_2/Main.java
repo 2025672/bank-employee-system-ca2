@@ -1,6 +1,7 @@
 package CA_2;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -100,6 +101,21 @@ public class Main {
         }
         System.out.println();
         System.out.println("SORT selected.");
+
+        ArrayList<ApplicantRecord> sorted = RecursiveMergeSort.sortByFullName(EmployeeDataStore.getRecords());
+        EmployeeDataStore.setRecords(sorted);
+
+        int limit = Math.min(RecursiveMergeSort.getDisplayLimit(), sorted.size());
+        System.out.println();
+        System.out.println("First " + limit + " names (alphabetical order):");
+        System.out.println("------------------------------------------");
+
+        for (int i = 0; i < limit; i++) {
+            System.out.println((i + 1) + ". " + sorted.get(i).getFullName());
+        }
+
+        System.out.println("------------------------------------------");
+        System.out.println("Total records sorted: " + sorted.size());
     }
 
     private static void handleSearchList() {
