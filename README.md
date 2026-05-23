@@ -48,3 +48,16 @@ Locations: project root and `src/main/resources/`.
 ## Demo order
 
 See `docs/DEMO_CHECKLIST.md` for a step-by-step test run before submission.
+
+## Submission (release 1.0.0)
+
+| Item | Detail |
+|------|--------|
+| Student ID | 2025672 |
+| GitHub (code) | https://github.com/2025672/bank-employee-system-ca2 |
+| Package | `CA_2` |
+| Release tag | `v1.0.0` |
+
+**Algorithms & Constructs:** submit this repository URL and the Word report (as required by your lecturer).
+
+**Software Development Fundamentals:** UML, requirements, user stories, and unit tests are submitted separately on Moodle (PDF), not in this repo.
