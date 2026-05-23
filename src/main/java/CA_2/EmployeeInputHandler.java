@@ -74,9 +74,18 @@ public class EmployeeInputHandler {
         EmployeeDataStore.addRecord(record);
         newlyAddedRecords.add(record);
 
+        Manager manager = OrganizationFactory.createManager(managerType);
+        Department dept = OrganizationFactory.createDepartment(department);
+        Employee employee = new FullTimeEmployee(
+                record.getFullName(), managerType.getLabel(), department.getLabel());
+        EmployeeTypeRegistry.addEmployee(employee);
+
         System.out.println();
         System.out.println("\"" + record.getFullName() + "\" has been added as \""
                 + managerType.getLabel() + "\" to \"" + department.getLabel() + "\" successfully!");
+        System.out.println("Role: " + manager.describeRole());
+        System.out.println("Department code: " + dept.getDepartmentCode()
+                + " | Employment: " + employee.getEmploymentType());
     }
 
     public static void displayNewlyAddedRecords() {

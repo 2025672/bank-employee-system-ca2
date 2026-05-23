@@ -87,8 +87,10 @@ public class Main {
         try {
             List<ApplicantRecord> loaded = FileHandler.readApplicantsFile(filename);
             EmployeeDataStore.setRecords(loaded);
+            EmployeeTypeRegistry.buildFromRecords(loaded);
             System.out.println("File read successfully.");
             System.out.println("Records loaded: " + EmployeeDataStore.getCount());
+            EmployeeTypeRegistry.displayEmploymentSummary(5);
         } catch (IOException e) {
             EmployeeDataStore.clear();
             System.out.println("Could not read file: " + e.getMessage());

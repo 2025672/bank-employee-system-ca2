@@ -7,7 +7,10 @@ public abstract class Employee {
     protected String managerType;
     protected String departmentName;
 
-    public Employee() {
+    protected Employee(String name, String managerType, String departmentName) {
+        this.name = name;
+        this.managerType = managerType;
+        this.departmentName = departmentName;
     }
 
     public String getName() {
@@ -20,5 +23,12 @@ public abstract class Employee {
 
     public String getDepartmentName() {
         return departmentName;
+    }
+
+    /** Employment category (full-time, part-time, contract). */
+    public abstract String getEmploymentType();
+
+    public String getSummary() {
+        return name + " | " + getEmploymentType() + " | " + managerType + " | " + departmentName;
     }
 }

@@ -1,14 +1,18 @@
 package CA_2;
 
-/** Parent class for manager roles. */
+/** Parent class for manager roles in the bank. */
 public abstract class Manager {
 
     protected String roleTitle;
 
-    public Manager() {
+    protected Manager(String roleTitle) {
+        this.roleTitle = roleTitle;
     }
 
     public String getRoleTitle() {
         return roleTitle;
     }
+
+    /** Describes the management responsibilities. */
+    public abstract String describeRole();
 }
