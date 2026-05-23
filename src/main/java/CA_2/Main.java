@@ -186,7 +186,14 @@ public class Main {
 
         if (!TreeDataStore.hasTree()) {
             System.out.println("Please create the binary tree first (option 5).");
+            return;
         }
+
+        EmployeeBinaryTree tree = TreeDataStore.getTree();
+        System.out.println();
+        tree.displayLevelOrderTraversal();
+        System.out.println("Tree height: " + tree.getHeight());
+        System.out.println("Total node count: " + tree.getNodeCount());
     }
 
     private static boolean checkDataLoaded() {

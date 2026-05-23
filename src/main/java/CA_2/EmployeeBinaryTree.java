@@ -92,4 +92,41 @@ public class EmployeeBinaryTree {
         int rightHeight = calculateHeight(node.getRight());
         return 1 + Math.max(leftHeight, rightHeight);
     }
+
+    /**
+     * Level-order traversal (breadth-first) — displays each employee in the tree.
+     */
+    public void displayLevelOrderTraversal() {
+        if (root == null) {
+            System.out.println("Tree is empty.");
+            return;
+        }
+
+        System.out.println("Level-order traversal:");
+        System.out.println("------------------------------------------");
+
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.add(root);
+        int position = 1;
+
+        while (!queue.isEmpty()) {
+            TreeNode current = queue.poll();
+            ApplicantRecord record = current.getData();
+
+            System.out.println(position + ". " + record.getFullName()
+                    + " | Manager Type: " + record.getJobTitle()
+                    + " | Department: " + record.getDepartment());
+
+            position++;
+
+            if (current.getLeft() != null) {
+                queue.add(current.getLeft());
+            }
+            if (current.getRight() != null) {
+                queue.add(current.getRight());
+            }
+        }
+
+        System.out.println("------------------------------------------");
+    }
 }
