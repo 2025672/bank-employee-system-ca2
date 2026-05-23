@@ -1,5 +1,7 @@
 package CA_2;
 
+import java.io.IOException;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -8,7 +10,6 @@ import java.util.Scanner;
 public class Main {
 
     private static final Scanner SCANNER = new Scanner(System.in);
-    private static boolean fileLoaded = false;
 
     public static void main(String[] args) {
         printWelcome();
@@ -79,13 +80,22 @@ public class Main {
         if (filename.isEmpty()) {
             filename = "Applicants_Form.txt";
         }
-        fileLoaded = true;
+
         System.out.println("Reading file: " + filename);
-        System.out.println("File read successfully.");
+
+        try {
+            List<ApplicantRecord> loaded = FileHandler.readApplicantsFile(filename);
+            EmployeeDataStore.setRecords(loaded);
+            System.out.println("File read successfully.");
+            System.out.println("Records loaded: " + EmployeeDataStore.getCount());
+        } catch (IOException e) {
+            EmployeeDataStore.clear();
+            System.out.println("Could not read file: " + e.getMessage());
+        }
     }
 
     private static void handleSortList() {
-        if (!checkFileLoaded()) {
+        if (!checkDataLoaded()) {
             return;
         }
         System.out.println();
@@ -93,7 +103,7 @@ public class Main {
     }
 
     private static void handleSearchList() {
-        if (!checkFileLoaded()) {
+        if (!checkDataLoaded()) {
             return;
         }
         System.out.println();
@@ -106,7 +116,7 @@ public class Main {
     }
 
     private static void handleCreateBinaryTree() {
-        if (!checkFileLoaded()) {
+        if (!checkDataLoaded()) {
             return;
         }
         System.out.println();
@@ -118,8 +128,8 @@ public class Main {
         System.out.println("Display Binary Tree selected.");
     }
 
-    private static boolean checkFileLoaded() {
-        if (!fileLoaded) {
+    private static boolean checkDataLoaded() {
+        if (EmployeeDataStore.isEmpty()) {
             System.out.println("Please read the file first (option 1).");
             return false;
         }
