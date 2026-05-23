@@ -162,11 +162,31 @@ public class Main {
         }
         System.out.println();
         System.out.println("Create Binary Tree selected.");
+
+        int recordCount = EmployeeDataStore.getCount();
+        if (recordCount < EmployeeBinaryTree.MINIMUM_RECORDS) {
+            System.out.println("At least " + EmployeeBinaryTree.MINIMUM_RECORDS
+                    + " records are required. Currently loaded: " + recordCount);
+            return;
+        }
+
+        EmployeeBinaryTree tree = new EmployeeBinaryTree();
+        tree.buildFromRecords(EmployeeDataStore.getRecords());
+        TreeDataStore.setTree(tree);
+
+        System.out.println();
+        System.out.println("Employee hierarchy binary tree created successfully.");
+        System.out.println("Insertion method: level-order (breadth-first).");
+        System.out.println("Total nodes inserted: " + tree.getNodeCount());
     }
 
     private static void handleDisplayBinaryTree() {
         System.out.println();
         System.out.println("Display Binary Tree selected.");
+
+        if (!TreeDataStore.hasTree()) {
+            System.out.println("Please create the binary tree first (option 5).");
+        }
     }
 
     private static boolean checkDataLoaded() {
