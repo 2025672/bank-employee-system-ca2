@@ -41,9 +41,9 @@ Locations: project root and `src/main/resources/`.
 | Entry / menu | `Main`, `MenuOption`, `ApplicationController`, `InputValidator` |
 | File I/O | `FileHandler`, `ApplicantRecord`, `EmployeeDataStore` |
 | Algorithms | `RecursiveMergeSort`, `RecursiveBinarySearch` |
-| Binary tree | `EmployeeBinaryTree`, `TreeNode`, `TreeDataStore` |
-| Hierarchy | `Employee`, `Manager`, `Department` and subtypes (managers, departments, employment types) |
-| Factory | `OrganizationFactory`, `EmployeeTypeRegistry`, `EmployeeInputHandler` |
+| Binary tree | `EmployeeBinaryTree`, `TreeNode` |
+| Hierarchy | `Employee`, `Manager`, `Department` + 3 subtypes each |
+| Add employee | `EmployeeInputHandler`, `OrganizationFactory`, `EmployeeTypeRegistry` |
 
 ## Demo order
 

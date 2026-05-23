@@ -1,20 +1,11 @@
 package CA_2;
 
-/**
- * Valid bank departments for new employee input (Enum).
- */
+/** Bank departments for new employee input (Enum). */
 public enum DepartmentType {
 
     CUSTOMER_SERVICE(1, "Customer Service"),
     FOREIGN_EXCHANGE(2, "Foreign Exchange"),
-    HR(3, "HR"),
-    FINANCE(4, "Finance"),
-    IT_DEVELOPMENT(5, "IT Development"),
-    SALES(6, "Sales"),
-    MARKETING(7, "Marketing"),
-    ACCOUNTING(8, "Accounting"),
-    OPERATIONS(9, "Operations"),
-    TECHNICAL_SUPPORT(10, "Technical Support");
+    HR(3, "HR");
 
     private final int code;
     private final String label;

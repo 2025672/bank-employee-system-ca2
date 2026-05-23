@@ -9,9 +9,9 @@ import java.util.Scanner;
 public class EmployeeInputHandler {
 
     private static final int MANAGER_MIN = 1;
-    private static final int MANAGER_MAX = 4;
+    private static final int MANAGER_MAX = 3;
     private static final int DEPARTMENT_MIN = 1;
-    private static final int DEPARTMENT_MAX = 10;
+    private static final int DEPARTMENT_MAX = 3;
 
     private static final ArrayList<ApplicantRecord> newlyAddedRecords = new ArrayList<>();
 

@@ -22,9 +22,6 @@ public class ApplicationController {
         System.out.println("  CCT HDip - System Modelling & Build (CA_2)");
         System.out.println("==================================================");
         System.out.println();
-        System.out.println("Demo flow: 1 Read -> 2 Sort -> 3 Search -> 4 Add (optional)");
-        System.out.println("           -> 5 Create tree -> 6 Display tree -> 7 Exit");
-        System.out.println();
     }
 
     public boolean processMenuChoice(MenuOption option) {
@@ -61,7 +58,7 @@ public class ApplicationController {
             return;
         }
         String sortedText = EmployeeDataStore.isSorted() ? "Yes" : "No (run option 2)";
-        String treeText = TreeDataStore.hasTree() ? "Built" : "Not built (option 5)";
+        String treeText = EmployeeDataStore.hasTree() ? "Built" : "Not built (option 5)";
         System.out.println("[Status] Records: " + EmployeeDataStore.getCount()
                 + " | Sorted: " + sortedText
                 + " | Tree: " + treeText);
@@ -189,7 +186,7 @@ public class ApplicationController {
         try {
             EmployeeBinaryTree tree = new EmployeeBinaryTree();
             tree.buildFromRecords(EmployeeDataStore.getRecords());
-            TreeDataStore.setTree(tree);
+            EmployeeDataStore.setTree(tree);
 
             System.out.println();
             System.out.println("Employee hierarchy binary tree created successfully.");
@@ -197,7 +194,7 @@ public class ApplicationController {
             System.out.println("Total nodes inserted: " + tree.getNodeCount());
             System.out.println("Use option 6 to view traversal, height, and node count.");
         } catch (Exception e) {
-            TreeDataStore.clear();
+            EmployeeDataStore.clearTree();
             System.out.println("Could not create tree: " + e.getMessage());
         }
     }
@@ -206,13 +203,13 @@ public class ApplicationController {
         System.out.println();
         System.out.println("Display Binary Tree selected.");
 
-        if (!TreeDataStore.hasTree()) {
+        if (!EmployeeDataStore.hasTree()) {
             System.out.println("Please create the binary tree first (option 5).");
             return;
         }
 
         try {
-            EmployeeBinaryTree tree = TreeDataStore.getTree();
+            EmployeeBinaryTree tree = EmployeeDataStore.getTree();
             System.out.println();
             tree.displayLevelOrderTraversal();
             System.out.println("Tree height: " + tree.getHeight());
@@ -235,8 +232,8 @@ public class ApplicationController {
     }
 
     private void clearTree(String message) {
-        if (TreeDataStore.hasTree()) {
-            TreeDataStore.clear();
+        if (EmployeeDataStore.hasTree()) {
+            EmployeeDataStore.clearTree();
             System.out.println(message);
         }
     }
@@ -244,7 +241,6 @@ public class ApplicationController {
     private void clearAllData() {
         EmployeeDataStore.clear();
         EmployeeTypeRegistry.clear();
-        TreeDataStore.clear();
     }
 
     private boolean checkDataLoaded() {

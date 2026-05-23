@@ -1,16 +1,16 @@
 package CA_2;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
- * Stores all applicant records in memory using an ArrayList.
+ * In-memory store for applicant records and the active binary tree.
  */
 public class EmployeeDataStore {
 
     private static final ArrayList<ApplicantRecord> records = new ArrayList<>();
     private static boolean sortedAlphabetically = false;
+    private static EmployeeBinaryTree tree;
 
     private EmployeeDataStore() {
     }
@@ -18,6 +18,7 @@ public class EmployeeDataStore {
     public static void clear() {
         records.clear();
         sortedAlphabetically = false;
+        tree = null;
     }
 
     public static void setRecords(List<ApplicantRecord> loadedRecords) {
@@ -51,7 +52,19 @@ public class EmployeeDataStore {
         return sortedAlphabetically;
     }
 
-    public static List<ApplicantRecord> getRecordsView() {
-        return Collections.unmodifiableList(records);
+    public static void setTree(EmployeeBinaryTree newTree) {
+        tree = newTree;
+    }
+
+    public static EmployeeBinaryTree getTree() {
+        return tree;
+    }
+
+    public static boolean hasTree() {
+        return tree != null && !tree.isEmpty();
+    }
+
+    public static void clearTree() {
+        tree = null;
     }
 }

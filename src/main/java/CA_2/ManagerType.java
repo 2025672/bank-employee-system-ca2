@@ -1,14 +1,11 @@
 package CA_2;
 
-/**
- * Valid manager roles for new employee input (Enum).
- */
+/** Manager roles for new employee input (Enum). */
 public enum ManagerType {
 
     HEAD_MANAGER(1, "Head Manager"),
     ASSISTANT_MANAGER(2, "Assistant Manager"),
-    TEAM_LEAD(3, "Team Lead"),
-    SENIOR_MANAGER(4, "Senior Manager");
+    TEAM_LEAD(3, "Team Lead");
 
     private final int code;
     private final String label;

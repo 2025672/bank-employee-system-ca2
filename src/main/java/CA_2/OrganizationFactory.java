@@ -1,7 +1,7 @@
 package CA_2;
 
 /**
- * Creates Manager and Department objects from validated enum choices.
+ * Builds Manager, Department, and Employee objects from records or menu choices.
  */
 public class OrganizationFactory {
 
@@ -16,8 +16,6 @@ public class OrganizationFactory {
                 return new AssistantManager();
             case TEAM_LEAD:
                 return new TeamLead();
-            case SENIOR_MANAGER:
-                return new SeniorManager();
             default:
                 return null;
         }
@@ -31,28 +29,12 @@ public class OrganizationFactory {
                 return new ForeignExchangeDepartment();
             case HR:
                 return new HRDepartment();
-            case FINANCE:
-                return new FinanceDepartment();
-            case IT_DEVELOPMENT:
-                return new ITDevelopmentDepartment();
-            case SALES:
-                return new SalesDepartment();
-            case MARKETING:
-                return new MarketingDepartment();
-            case ACCOUNTING:
-                return new AccountingDepartment();
-            case OPERATIONS:
-                return new OperationsDepartment();
-            case TECHNICAL_SUPPORT:
-                return new TechnicalSupportDepartment();
             default:
                 return null;
         }
     }
 
-    /**
-     * Builds an Employee subtype from file data using the position field.
-     */
+    /** Maps file position text to an Employee subtype (full-time, part-time, or contract). */
     public static Employee createEmployeeFromRecord(ApplicantRecord record) {
         String name = record.getFullName();
         String managerType = record.getJobTitle();
