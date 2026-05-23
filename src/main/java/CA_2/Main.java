@@ -152,6 +152,8 @@ public class Main {
     private static void handleAddEmployee() {
         System.out.println();
         System.out.println("ADD RECORDS selected.");
+        EmployeeInputHandler.addEmployee(SCANNER);
+        EmployeeInputHandler.displayNewlyAddedRecords();
     }
 
     private static void handleCreateBinaryTree() {

@@ -35,6 +35,10 @@ public class EmployeeDataStore {
         return records.isEmpty();
     }
 
+    public static void addRecord(ApplicantRecord record) {
+        records.add(record);
+    }
+
     /** Returns an unmodifiable view for safe read-only access. */
     public static List<ApplicantRecord> getRecordsView() {
         return Collections.unmodifiableList(records);
