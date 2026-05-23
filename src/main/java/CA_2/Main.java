@@ -124,6 +124,29 @@ public class Main {
         }
         System.out.println();
         System.out.println("SEARCH selected.");
+        System.out.print("Enter name to search: ");
+        String searchName = SCANNER.nextLine().trim();
+
+        if (searchName.isEmpty()) {
+            System.out.println("Name cannot be empty.");
+            return;
+        }
+
+        // Binary search needs a sorted list (option 2 or sort here before search).
+        ArrayList<ApplicantRecord> sorted = RecursiveMergeSort.sortByFullName(EmployeeDataStore.getRecords());
+        EmployeeDataStore.setRecords(sorted);
+
+        ApplicantRecord found = RecursiveBinarySearch.searchByName(sorted, searchName);
+
+        System.out.println();
+        if (found != null) {
+            System.out.println("Employee found:");
+            System.out.println("  Name: " + found.getFullName());
+            System.out.println("  Manager Type: " + found.getJobTitle());
+            System.out.println("  Department: " + found.getDepartment());
+        } else {
+            System.out.println("No employee found with name: " + searchName);
+        }
     }
 
     private static void handleAddEmployee() {
