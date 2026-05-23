@@ -13,10 +13,15 @@ public class Main {
     private static final Scanner SCANNER = new Scanner(System.in);
 
     public static void main(String[] args) {
-        printWelcome();
-        runMenuLoop();
-        System.out.println("Thank you. Goodbye.");
-        SCANNER.close();
+        try {
+            printWelcome();
+            runMenuLoop();
+            System.out.println("Thank you. Goodbye.");
+        } catch (Exception e) {
+            System.out.println("An unexpected error occurred: " + e.getMessage());
+        } finally {
+            SCANNER.close();
+        }
     }
 
     private static void printWelcome() {
@@ -32,9 +37,10 @@ public class Main {
         while (running) {
             System.out.println();
             MenuOption.printAllOptions();
-            System.out.print("Enter your choice: ");
+            System.out.print("Enter your choice (" + MenuOption.getMinCode()
+                    + "-" + MenuOption.getMaxCode() + "): ");
 
-            int choice = readIntInput();
+            int choice = InputValidator.readMenuChoice(SCANNER);
             MenuOption selected = MenuOption.fromCode(choice);
 
             if (selected == null) {
@@ -77,9 +83,15 @@ public class Main {
     private static void handleReadFile() {
         System.out.println();
         System.out.print("Please enter the filename to read (or press Enter for Applicants_Form.txt): ");
-        String filename = SCANNER.nextLine().trim();
+        String filename = SCANNER.hasNextLine() ? SCANNER.nextLine().trim() : "";
+
         if (filename.isEmpty()) {
             filename = "Applicants_Form.txt";
+        }
+
+        if (!InputValidator.isValidFileName(filename)) {
+            System.out.println("Invalid file name. Use only the file name (e.g. Applicants_Form.txt).");
+            return;
         }
 
         System.out.println("Reading file: " + filename);
@@ -88,11 +100,12 @@ public class Main {
             List<ApplicantRecord> loaded = FileHandler.readApplicantsFile(filename);
             EmployeeDataStore.setRecords(loaded);
             EmployeeTypeRegistry.buildFromRecords(loaded);
+            TreeDataStore.clear();
             System.out.println("File read successfully.");
             System.out.println("Records loaded: " + EmployeeDataStore.getCount());
             EmployeeTypeRegistry.displayEmploymentSummary(5);
         } catch (IOException e) {
-            EmployeeDataStore.clear();
+            clearAllData();
             System.out.println("Could not read file: " + e.getMessage());
         }
     }
@@ -104,20 +117,24 @@ public class Main {
         System.out.println();
         System.out.println("SORT selected.");
 
-        ArrayList<ApplicantRecord> sorted = RecursiveMergeSort.sortByFullName(EmployeeDataStore.getRecords());
-        EmployeeDataStore.setRecords(sorted);
+        try {
+            ArrayList<ApplicantRecord> sorted = RecursiveMergeSort.sortByFullName(EmployeeDataStore.getRecords());
+            EmployeeDataStore.setRecords(sorted);
 
-        int limit = Math.min(RecursiveMergeSort.getDisplayLimit(), sorted.size());
-        System.out.println();
-        System.out.println("First " + limit + " names (alphabetical order):");
-        System.out.println("------------------------------------------");
+            int limit = Math.min(RecursiveMergeSort.getDisplayLimit(), sorted.size());
+            System.out.println();
+            System.out.println("First " + limit + " names (alphabetical order):");
+            System.out.println("------------------------------------------");
 
-        for (int i = 0; i < limit; i++) {
-            System.out.println((i + 1) + ". " + sorted.get(i).getFullName());
+            for (int i = 0; i < limit; i++) {
+                System.out.println((i + 1) + ". " + sorted.get(i).getFullName());
+            }
+
+            System.out.println("------------------------------------------");
+            System.out.println("Total records sorted: " + sorted.size());
+        } catch (Exception e) {
+            System.out.println("Sort failed: " + e.getMessage());
         }
-
-        System.out.println("------------------------------------------");
-        System.out.println("Total records sorted: " + sorted.size());
     }
 
     private static void handleSearchList() {
@@ -126,28 +143,36 @@ public class Main {
         }
         System.out.println();
         System.out.println("SEARCH selected.");
-        System.out.print("Enter name to search: ");
-        String searchName = SCANNER.nextLine().trim();
 
+        String searchName = InputValidator.readNonEmptyLine(SCANNER, "Enter name to search: ");
         if (searchName.isEmpty()) {
-            System.out.println("Name cannot be empty.");
+            System.out.println("Search cancelled.");
             return;
         }
 
-        // Binary search needs a sorted list (option 2 or sort here before search).
-        ArrayList<ApplicantRecord> sorted = RecursiveMergeSort.sortByFullName(EmployeeDataStore.getRecords());
-        EmployeeDataStore.setRecords(sorted);
+        if (!InputValidator.isValidPersonName(searchName)) {
+            System.out.println("Invalid name format. Use letters and spaces only.");
+            return;
+        }
 
-        ApplicantRecord found = RecursiveBinarySearch.searchByName(sorted, searchName);
+        try {
+            ArrayList<ApplicantRecord> sorted = RecursiveMergeSort.sortByFullName(EmployeeDataStore.getRecords());
+            EmployeeDataStore.setRecords(sorted);
 
-        System.out.println();
-        if (found != null) {
-            System.out.println("Employee found:");
-            System.out.println("  Name: " + found.getFullName());
-            System.out.println("  Manager Type: " + found.getJobTitle());
-            System.out.println("  Department: " + found.getDepartment());
-        } else {
-            System.out.println("No employee found with name: " + searchName);
+            ApplicantRecord found = RecursiveBinarySearch.searchByName(sorted, searchName);
+
+            System.out.println();
+            if (found != null) {
+                System.out.println("Employee found:");
+                System.out.println("  Name: " + found.getFullName());
+                System.out.println("  Manager Type: " + found.getJobTitle());
+                System.out.println("  Department: " + found.getDepartment());
+            } else {
+                System.out.println("No employee found with name: " + searchName);
+                System.out.println("Tip: use full name and run Sort (option 2) first if needed.");
+            }
+        } catch (Exception e) {
+            System.out.println("Search failed: " + e.getMessage());
         }
     }
 
@@ -172,14 +197,19 @@ public class Main {
             return;
         }
 
-        EmployeeBinaryTree tree = new EmployeeBinaryTree();
-        tree.buildFromRecords(EmployeeDataStore.getRecords());
-        TreeDataStore.setTree(tree);
+        try {
+            EmployeeBinaryTree tree = new EmployeeBinaryTree();
+            tree.buildFromRecords(EmployeeDataStore.getRecords());
+            TreeDataStore.setTree(tree);
 
-        System.out.println();
-        System.out.println("Employee hierarchy binary tree created successfully.");
-        System.out.println("Insertion method: level-order (breadth-first).");
-        System.out.println("Total nodes inserted: " + tree.getNodeCount());
+            System.out.println();
+            System.out.println("Employee hierarchy binary tree created successfully.");
+            System.out.println("Insertion method: level-order (breadth-first).");
+            System.out.println("Total nodes inserted: " + tree.getNodeCount());
+        } catch (Exception e) {
+            TreeDataStore.clear();
+            System.out.println("Could not create tree: " + e.getMessage());
+        }
     }
 
     private static void handleDisplayBinaryTree() {
@@ -191,11 +221,21 @@ public class Main {
             return;
         }
 
-        EmployeeBinaryTree tree = TreeDataStore.getTree();
-        System.out.println();
-        tree.displayLevelOrderTraversal();
-        System.out.println("Tree height: " + tree.getHeight());
-        System.out.println("Total node count: " + tree.getNodeCount());
+        try {
+            EmployeeBinaryTree tree = TreeDataStore.getTree();
+            System.out.println();
+            tree.displayLevelOrderTraversal();
+            System.out.println("Tree height: " + tree.getHeight());
+            System.out.println("Total node count: " + tree.getNodeCount());
+        } catch (Exception e) {
+            System.out.println("Could not display tree: " + e.getMessage());
+        }
+    }
+
+    private static void clearAllData() {
+        EmployeeDataStore.clear();
+        EmployeeTypeRegistry.clear();
+        TreeDataStore.clear();
     }
 
     private static boolean checkDataLoaded() {
@@ -204,15 +244,5 @@ public class Main {
             return false;
         }
         return true;
-    }
-
-    private static int readIntInput() {
-        while (!SCANNER.hasNextInt()) {
-            System.out.println("Invalid input. Please enter a number.");
-            SCANNER.next();
-        }
-        int value = SCANNER.nextInt();
-        SCANNER.nextLine();
-        return value;
     }
 }

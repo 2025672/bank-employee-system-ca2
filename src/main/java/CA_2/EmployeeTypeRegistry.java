@@ -13,6 +13,10 @@ public class EmployeeTypeRegistry {
     private EmployeeTypeRegistry() {
     }
 
+    public static void clear() {
+        employees.clear();
+    }
+
     public static void buildFromRecords(List<ApplicantRecord> records) {
         employees.clear();
         for (ApplicantRecord record : records) {

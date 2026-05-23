@@ -8,6 +8,11 @@ import java.util.Scanner;
  */
 public class EmployeeInputHandler {
 
+    private static final int MANAGER_MIN = 1;
+    private static final int MANAGER_MAX = 4;
+    private static final int DEPARTMENT_MIN = 1;
+    private static final int DEPARTMENT_MAX = 10;
+
     private static final ArrayList<ApplicantRecord> newlyAddedRecords = new ArrayList<>();
 
     private EmployeeInputHandler() {
@@ -15,11 +20,15 @@ public class EmployeeInputHandler {
 
     public static void addEmployee(Scanner scanner) {
         System.out.println();
-        System.out.print("Please input the employee name: ");
-        String fullName = scanner.nextLine().trim();
+        String fullName = InputValidator.readNonEmptyLine(scanner, "Please input the employee name: ");
 
         if (fullName.isEmpty()) {
-            System.out.println("Name cannot be empty.");
+            System.out.println("Add employee cancelled.");
+            return;
+        }
+
+        if (!InputValidator.isValidPersonName(fullName)) {
+            System.out.println("Invalid name. Use letters, spaces, apostrophes, or hyphens only.");
             return;
         }
 
@@ -28,20 +37,22 @@ public class EmployeeInputHandler {
         int spaceIndex = fullName.indexOf(' ');
 
         if (spaceIndex == -1) {
-            firstName = fullName;
-            lastName = "";
-        } else {
-            firstName = fullName.substring(0, spaceIndex).trim();
-            lastName = fullName.substring(spaceIndex + 1).trim();
-            if (lastName.isEmpty()) {
-                System.out.println("Please enter first and last name.");
-                return;
-            }
+            System.out.println("Please enter first and last name (e.g. John Smith).");
+            return;
+        }
+
+        firstName = fullName.substring(0, spaceIndex).trim();
+        lastName = fullName.substring(spaceIndex + 1).trim();
+
+        if (lastName.isEmpty() || !InputValidator.isValidPersonName(firstName)
+                || !InputValidator.isValidPersonName(lastName)) {
+            System.out.println("Please enter a valid first and last name.");
+            return;
         }
 
         ManagerType.printOptions();
-        System.out.print("Enter management choice: ");
-        int managerChoice = readInt(scanner);
+        int managerChoice = InputValidator.readIntInRange(scanner, MANAGER_MIN, MANAGER_MAX,
+                "Enter management choice: ");
         ManagerType managerType = ManagerType.fromCode(managerChoice);
 
         if (managerType == null) {
@@ -50,8 +61,8 @@ public class EmployeeInputHandler {
         }
 
         DepartmentType.printOptions();
-        System.out.print("Enter department choice: ");
-        int departmentChoice = readInt(scanner);
+        int departmentChoice = InputValidator.readIntInRange(scanner, DEPARTMENT_MIN, DEPARTMENT_MAX,
+                "Enter department choice: ");
         DepartmentType department = DepartmentType.fromCode(departmentChoice);
 
         if (department == null) {
@@ -105,15 +116,5 @@ public class EmployeeInputHandler {
         }
         System.out.println("------------------------------------------");
         System.out.println("Total new records: " + newlyAddedRecords.size());
-    }
-
-    private static int readInt(Scanner scanner) {
-        while (!scanner.hasNextInt()) {
-            System.out.println("Invalid input. Please enter a number.");
-            scanner.next();
-        }
-        int value = scanner.nextInt();
-        scanner.nextLine();
-        return value;
     }
 }

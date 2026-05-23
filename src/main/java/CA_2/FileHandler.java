@@ -53,6 +53,10 @@ public class FileHandler {
             }
         }
 
+        if (list.isEmpty()) {
+            throw new IOException("No employee records found in file.");
+        }
+
         return list;
     }
 

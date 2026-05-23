@@ -44,4 +44,12 @@ public enum MenuOption {
         }
         return null;
     }
+
+    public static int getMinCode() {
+        return 1;
+    }
+
+    public static int getMaxCode() {
+        return EXIT.getCode();
+    }
 }
