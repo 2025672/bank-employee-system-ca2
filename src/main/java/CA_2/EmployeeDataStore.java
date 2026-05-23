@@ -10,17 +10,20 @@ import java.util.List;
 public class EmployeeDataStore {
 
     private static final ArrayList<ApplicantRecord> records = new ArrayList<>();
+    private static boolean sortedAlphabetically = false;
 
     private EmployeeDataStore() {
     }
 
     public static void clear() {
         records.clear();
+        sortedAlphabetically = false;
     }
 
     public static void setRecords(List<ApplicantRecord> loadedRecords) {
         records.clear();
         records.addAll(loadedRecords);
+        sortedAlphabetically = false;
     }
 
     public static ArrayList<ApplicantRecord> getRecords() {
@@ -37,9 +40,17 @@ public class EmployeeDataStore {
 
     public static void addRecord(ApplicantRecord record) {
         records.add(record);
+        sortedAlphabetically = false;
     }
 
-    /** Returns an unmodifiable view for safe read-only access. */
+    public static void markSorted() {
+        sortedAlphabetically = true;
+    }
+
+    public static boolean isSorted() {
+        return sortedAlphabetically;
+    }
+
     public static List<ApplicantRecord> getRecordsView() {
         return Collections.unmodifiableList(records);
     }
